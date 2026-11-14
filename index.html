@@ -1,0 +1,1368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Congratulations ENG JIA SHENG - Honor of Kings Champion!</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@600;700&family=Noto+Sans+SC:wght@500;700;900&display=swap" rel="stylesheet">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Canvas Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+
+  <style>
+    :root {
+      --primary-cyan: #00f3ff;
+      --neon-purple: #9d4edd;
+      --gold-champion: #ffd700;
+      --glow-gold: #ffaa00;
+      --deep-bg: #070617;
+      --glass-bg: rgba(18, 14, 45, 0.65);
+      --glass-border: rgba(0, 243, 255, 0.28);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+    }
+
+    body {
+      background: var(--deep-bg);
+      color: #ffffff;
+      font-family: 'Rajdhani', 'Noto Sans SC', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Ambient Anime Starfield & Floating Particles */
+    #particle-canvas {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Ambient dynamic glow blobs */
+    .ambient-glow {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(120px);
+      opacity: 0.45;
+      pointer-events: none;
+      z-index: 0;
+      animation: pulseGlow 10s ease-in-out infinite alternate;
+    }
+
+    .ambient-glow-1 {
+      top: -10%;
+      left: 15%;
+      width: 550px;
+      height: 550px;
+      background: radial-gradient(circle, #7928ca 0%, transparent 70%);
+    }
+
+    .ambient-glow-2 {
+      bottom: -10%;
+      right: 10%;
+      width: 650px;
+      height: 650px;
+      background: radial-gradient(circle, #00f3ff 0%, transparent 70%);
+      animation-delay: -5s;
+    }
+
+    .ambient-glow-3 {
+      top: 45%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 700px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(255, 215, 0, 0.2) 0%, transparent 70%);
+    }
+
+    @keyframes pulseGlow {
+      0% { transform: scale(1) translateY(0); opacity: 0.35; }
+      50% { transform: scale(1.15) translateY(-30px); opacity: 0.55; }
+      100% { transform: scale(1) translateY(0); opacity: 0.35; }
+    }
+
+    /* Top Navigation bar */
+    header {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 40px;
+      backdrop-filter: blur(16px);
+      background: rgba(12, 10, 32, 0.6);
+      border-bottom: 1px solid rgba(0, 243, 255, 0.15);
+    }
+
+    .brand-badge {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 800;
+      font-size: 1.15rem;
+      letter-spacing: 2px;
+      color: var(--primary-cyan);
+      text-shadow: 0 0 12px rgba(0, 243, 255, 0.8);
+    }
+
+    .brand-badge span {
+      color: #fff;
+      font-weight: 400;
+      opacity: 0.8;
+      font-size: 0.85rem;
+      border: 1px solid rgba(255, 215, 0, 0.4);
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: rgba(255, 215, 0, 0.1);
+      color: var(--gold-champion);
+    }
+
+    /* Music Player Controller */
+    .audio-control-panel {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .music-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: linear-gradient(135deg, rgba(157, 78, 221, 0.3), rgba(0, 243, 255, 0.25));
+      border: 1px solid var(--primary-cyan);
+      color: #ffffff;
+      padding: 10px 22px;
+      border-radius: 40px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      cursor: pointer;
+      box-shadow: 0 0 20px rgba(0, 243, 255, 0.3);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .music-btn:hover {
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 0 30px rgba(0, 243, 255, 0.6);
+      background: linear-gradient(135deg, rgba(157, 78, 221, 0.6), rgba(0, 243, 255, 0.5));
+    }
+
+    .music-btn.playing {
+      border-color: #00ff88;
+      box-shadow: 0 0 25px rgba(0, 255, 136, 0.5);
+    }
+
+    .sound-bars {
+      display: flex;
+      align-items: flex-end;
+      gap: 3px;
+      height: 16px;
+    }
+
+    .bar {
+      width: 3px;
+      height: 4px;
+      background: var(--primary-cyan);
+      border-radius: 2px;
+    }
+
+    .playing .bar {
+      animation: soundBarDance 1s ease-in-out infinite alternate;
+    }
+    .playing .bar:nth-child(2) { animation-delay: 0.2s; height: 12px; }
+    .playing .bar:nth-child(3) { animation-delay: 0.4s; height: 16px; }
+    .playing .bar:nth-child(4) { animation-delay: 0.15s; height: 8px; }
+
+    @keyframes soundBarDance {
+      0% { height: 4px; }
+      100% { height: 16px; }
+    }
+
+    /* Main Container */
+    main {
+      position: relative;
+      z-index: 2;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 30px 24px 80px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Champion Header Title */
+    .congrats-banner {
+      text-align: center;
+      margin-bottom: 30px;
+      position: relative;
+    }
+
+    .sub-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.95rem;
+      letter-spacing: 3px;
+      color: var(--primary-cyan);
+      text-transform: uppercase;
+      background: rgba(0, 243, 255, 0.08);
+      border: 1px solid rgba(0, 243, 255, 0.4);
+      padding: 6px 20px;
+      border-radius: 30px;
+      margin-bottom: 16px;
+      box-shadow: 0 0 15px rgba(0, 243, 255, 0.2);
+    }
+
+    .main-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(2rem, 5vw, 3.8rem);
+      font-weight: 900;
+      line-height: 1.15;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .text-gold {
+      background: linear-gradient(135deg, #fff 0%, #ffd700 50%, #ff8c00 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 0 25px rgba(255, 215, 0, 0.5));
+    }
+
+    .text-cyan {
+      color: var(--primary-cyan);
+      text-shadow: 0 0 20px rgba(0, 243, 255, 0.6);
+    }
+
+    .name-glow {
+      display: inline-block;
+      font-size: clamp(2.4rem, 6.5vw, 4.8rem);
+      font-weight: 900;
+      color: #ffffff;
+      background: linear-gradient(180deg, #ffffff 0%, #ffdf6d 60%, #ff9500 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 0 35px rgba(255, 215, 0, 0.7));
+      animation: animeNameGlow 3s ease-in-out infinite alternate;
+      letter-spacing: 3px;
+    }
+
+    @keyframes animeNameGlow {
+      0% { filter: drop-shadow(0 0 25px rgba(255, 215, 0, 0.6)); }
+      100% { filter: drop-shadow(0 0 50px rgba(0, 243, 255, 0.9)) drop-shadow(0 0 80px rgba(255, 170, 0, 0.8)); }
+    }
+
+    .subtitle-description {
+      font-size: 1.25rem;
+      color: #cfcde5;
+      max-width: 780px;
+      margin: 10px auto 0 auto;
+      line-height: 1.6;
+      font-weight: 500;
+    }
+
+    /* Anime Floating Stage (The Plaza / Tournament Podium) */
+    .anime-stage-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 1100px;
+      margin: 20px 0 40px 0;
+      perspective: 1200px;
+    }
+
+    /* Slow Anime Floating Motion for the Podium */
+    .floating-plaza {
+      position: relative;
+      border-radius: 28px;
+      overflow: hidden;
+      background: var(--glass-bg);
+      border: 2px solid var(--glass-border);
+      box-shadow: 
+        0 25px 60px rgba(0, 0, 0, 0.7),
+        0 0 50px rgba(157, 78, 221, 0.35),
+        inset 0 0 30px rgba(0, 243, 255, 0.15);
+      backdrop-filter: blur(20px);
+      /* Slow anime gentle hovering float */
+      animation: animePlazaFloat 8s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+      transform-style: preserve-3d;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+
+    @keyframes animePlazaFloat {
+      0% {
+        transform: translateY(0px) rotateX(2deg) rotateY(0deg);
+      }
+      25% {
+        transform: translateY(-16px) rotateX(1deg) rotateY(1.2deg);
+      }
+      50% {
+        transform: translateY(-28px) rotateX(0deg) rotateY(-0.8deg);
+      }
+      75% {
+        transform: translateY(-14px) rotateX(1.5deg) rotateY(-1.5deg);
+      }
+      100% {
+        transform: translateY(0px) rotateX(2deg) rotateY(0deg);
+      }
+    }
+
+    /* Plaza Inner Content Layout */
+    .plaza-inner {
+      position: relative;
+      z-index: 3;
+      width: 100%;
+      min-height: 480px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 40px;
+      gap: 30px;
+    }
+
+    /* Champion Photo Card with Cyberpunk Anime Glow Frame */
+    .champion-photo-card {
+      position: relative;
+      width: 250px;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 2px solid var(--primary-cyan);
+      box-shadow: 0 0 35px rgba(0, 243, 255, 0.4), 0 0 50px rgba(157, 78, 221, 0.3);
+      background: rgba(14, 10, 36, 0.85);
+      backdrop-filter: blur(10px);
+      margin-bottom: 16px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .champion-photo-card:hover {
+      transform: scale(1.04);
+      box-shadow: 0 0 50px rgba(255, 215, 0, 0.7);
+      border-color: var(--gold-champion);
+    }
+
+    .champion-photo-card img {
+      width: 100%;
+      height: 220px;
+      object-fit: contain;
+      object-position: center;
+      background: radial-gradient(circle at center, rgba(30, 20, 65, 0.8) 0%, rgba(10, 6, 26, 0.95) 100%);
+      display: block;
+      filter: contrast(1.1) brightness(1.05);
+    }
+
+    .champion-photo-overlay {
+      padding: 10px 14px;
+      background: linear-gradient(180deg, rgba(16, 12, 38, 0.8) 0%, rgba(9, 6, 25, 0.95) 100%);
+      border-top: 1px solid rgba(0, 243, 255, 0.3);
+      text-align: center;
+    }
+
+    .champion-photo-overlay .badge-text {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 900;
+      color: var(--gold-champion);
+      letter-spacing: 1px;
+    }
+
+    .champion-photo-overlay .kda-text {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.72rem;
+      color: #00f3ff;
+      letter-spacing: 0.5px;
+      margin-top: 2px;
+    }
+
+    /* Tournament Stage Background Graphic */
+    .stage-bg-art {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.38;
+      mix-blend-mode: lighten;
+      pointer-events: none;
+      filter: saturate(1.4) contrast(1.1);
+      animation: subtleZoom 16s ease-in-out infinite alternate;
+    }
+
+    @keyframes subtleZoom {
+      0% { transform: scale(1); }
+      100% { transform: scale(1.07); }
+    }
+
+    /* Scanning laser line */
+    .scan-line {
+      position: absolute;
+      top: -20%;
+      left: 0;
+      width: 100%;
+      height: 12px;
+      background: linear-gradient(90deg, transparent, rgba(0, 243, 255, 0.8), transparent);
+      box-shadow: 0 0 20px var(--primary-cyan);
+      opacity: 0.6;
+      animation: laserSweep 6s linear infinite;
+      pointer-events: none;
+    }
+
+    @keyframes laserSweep {
+      0% { top: -10%; opacity: 0; }
+      15% { opacity: 0.8; }
+      85% { opacity: 0.8; }
+      100% { top: 110%; opacity: 0; }
+    }
+
+    /* Left Plaza Column - Accolades & Stats */
+    .plaza-info {
+      position: relative;
+      z-index: 3;
+      flex: 1.2;
+    }
+
+    .tournament-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      background: rgba(255, 215, 0, 0.15);
+      border: 1px solid var(--gold-champion);
+      border-radius: 8px;
+      color: var(--gold-champion);
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-bottom: 20px;
+    }
+
+    .hero-greeting {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 900;
+      color: #fff;
+      margin-bottom: 12px;
+      line-height: 1.2;
+    }
+
+    .hero-greeting span {
+      color: var(--gold-champion);
+      text-shadow: 0 0 25px rgba(255, 215, 0, 0.8);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 24px;
+      margin-bottom: 28px;
+    }
+
+    .stat-card {
+      background: rgba(20, 15, 50, 0.7);
+      border: 1px solid rgba(0, 243, 255, 0.2);
+      border-radius: 14px;
+      padding: 14px 16px;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .stat-card:hover {
+      border-color: var(--gold-champion);
+      transform: translateY(-4px);
+      box-shadow: 0 6px 20px rgba(255, 215, 0, 0.25);
+    }
+
+    .stat-card .label {
+      font-size: 0.8rem;
+      letter-spacing: 1px;
+      color: #a7a3cc;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .stat-card .value {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--primary-cyan);
+    }
+
+    .stat-card:first-child .value {
+      color: var(--gold-champion);
+    }
+
+    .actions-row {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .celebrate-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: linear-gradient(135deg, #ffd700 0%, #ff8c00 100%);
+      color: #0c0824;
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 800;
+      font-size: 0.95rem;
+      padding: 14px 30px;
+      border-radius: 40px;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 0 25px rgba(255, 215, 0, 0.6);
+      transition: all 0.25s ease;
+    }
+
+    .celebrate-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 40px rgba(255, 215, 0, 0.9);
+    }
+
+    .celebrate-btn:active {
+      transform: scale(0.97);
+    }
+
+    /* Right Plaza Column - Animated 3D Floating Trophy & Crown */
+    .plaza-trophy-display {
+      position: relative;
+      z-index: 3;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Anime Aura Ring */
+    .anime-aura-ring {
+      position: absolute;
+      width: 280px;
+      height: 280px;
+      border-radius: 50%;
+      border: 3px dashed rgba(255, 215, 0, 0.6);
+      box-shadow: 0 0 45px rgba(255, 215, 0, 0.35), inset 0 0 40px rgba(0, 243, 255, 0.3);
+      animation: rotateRing 20s linear infinite;
+    }
+
+    @keyframes rotateRing {
+      0% { transform: rotate(0deg) scale(0.95); }
+      50% { transform: rotate(180deg) scale(1.05); }
+      100% { rotate: 360deg; transform: scale(0.95); }
+    }
+
+    .trophy-container {
+      position: relative;
+      width: 220px;
+      height: 220px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: animeTrophyHover 4s ease-in-out infinite alternate;
+    }
+
+    @keyframes animeTrophyHover {
+      0% { transform: translateY(0px) rotate(0deg) scale(1); }
+      50% { transform: translateY(-12px) rotate(2deg) scale(1.04); }
+      100% { transform: translateY(0px) rotate(-1deg) scale(1); }
+    }
+
+    .trophy-svg {
+      width: 140px;
+      height: 140px;
+      filter: drop-shadow(0 0 35px rgba(255, 215, 0, 0.9));
+      color: var(--gold-champion);
+    }
+
+    .crown-floating {
+      position: absolute;
+      top: 0;
+      color: #fffa65;
+      filter: drop-shadow(0 0 20px #fffa65);
+      animation: crownBounce 3s ease-in-out infinite;
+    }
+
+    @keyframes crownBounce {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .rank-pedestal {
+      margin-top: 15px;
+      font-family: 'Orbitron', sans-serif;
+      text-align: center;
+      background: rgba(0, 0, 0, 0.45);
+      border: 1px solid rgba(255, 215, 0, 0.4);
+      padding: 8px 24px;
+      border-radius: 20px;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    }
+
+    .rank-pedestal .rank-num {
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: var(--gold-champion);
+      letter-spacing: 2px;
+    }
+
+    .rank-pedestal .rank-text {
+      font-size: 0.75rem;
+      letter-spacing: 2px;
+      color: #00f3ff;
+      text-transform: uppercase;
+    }
+
+    /* Honor of Kings Highlights / Hall of Fame */
+    .highlights-section {
+      width: 100%;
+      max-width: 1100px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+      gap: 22px;
+      margin-top: 20px;
+    }
+
+    .feature-card {
+      background: rgba(16, 12, 38, 0.7);
+      border: 1px solid rgba(0, 243, 255, 0.15);
+      border-radius: 20px;
+      padding: 24px;
+      backdrop-filter: blur(14px);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--primary-cyan), transparent);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(0, 243, 255, 0.45);
+      box-shadow: 0 12px 30px rgba(0, 243, 255, 0.15);
+    }
+
+    .feature-card:hover::before {
+      opacity: 1;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .card-icon-box {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: rgba(0, 243, 255, 0.12);
+      border: 1px solid rgba(0, 243, 255, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary-cyan);
+    }
+
+    .card-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .card-desc {
+      color: #b0acca;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    /* Embedded YouTube Music player (hidden/compact controller) */
+    .yt-audio-container {
+      position: fixed;
+      bottom: -300px;
+      right: 0;
+      width: 200px;
+      height: 200px;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* Floating Anime decorative elements around page */
+    .floating-shard {
+      position: absolute;
+      background: linear-gradient(135deg, rgba(0, 243, 255, 0.2), rgba(157, 78, 221, 0.1));
+      border: 1px solid rgba(0, 243, 255, 0.3);
+      backdrop-filter: blur(4px);
+      border-radius: 6px;
+      pointer-events: none;
+      animation: floatShard 10s ease-in-out infinite alternate;
+    }
+
+    .shard-1 {
+      width: 45px;
+      height: 45px;
+      top: 15%;
+      left: 6%;
+      transform: rotate(25deg);
+      animation-duration: 9s;
+    }
+
+    .shard-2 {
+      width: 60px;
+      height: 60px;
+      top: 65%;
+      right: 5%;
+      transform: rotate(-15deg);
+      animation-duration: 12s;
+    }
+
+    .shard-3 {
+      width: 30px;
+      height: 30px;
+      bottom: 20%;
+      left: 10%;
+      transform: rotate(45deg);
+      animation-duration: 8s;
+    }
+
+    @keyframes floatShard {
+      0% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-25px) rotate(20deg); }
+      100% { transform: translateY(0px) rotate(0deg); }
+    }
+
+    /* Footer */
+    footer {
+      position: relative;
+      z-index: 5;
+      text-align: center;
+      padding: 30px;
+      color: #7b76a3;
+      font-size: 0.9rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    /* Welcome Overlay Modal for Guaranteed Auto-Play on Enter */
+    .enter-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: radial-gradient(circle at center, rgba(16, 11, 40, 0.95) 0%, rgba(5, 3, 16, 0.98) 100%);
+      backdrop-filter: blur(25px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.6s;
+    }
+
+    .enter-overlay.fade-out {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .enter-modal {
+      text-align: center;
+      padding: 40px;
+      border-radius: 28px;
+      background: rgba(22, 17, 52, 0.7);
+      border: 2px solid rgba(0, 243, 255, 0.4);
+      box-shadow: 0 0 60px rgba(0, 243, 255, 0.3), inset 0 0 30px rgba(157, 78, 221, 0.2);
+      max-width: 480px;
+      width: 90%;
+      animation: modalFloat 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes modalFloat {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-10px); }
+    }
+
+    .enter-trophy {
+      font-size: 3.5rem;
+      margin-bottom: 12px;
+      filter: drop-shadow(0 0 25px #ffd700);
+      animation: pulseGlow 2s infinite alternate;
+    }
+
+    .enter-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: #ffffff;
+      margin-bottom: 8px;
+      letter-spacing: 2px;
+    }
+
+    .enter-name {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2rem;
+      font-weight: 900;
+      color: #ffd700;
+      text-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+      margin-bottom: 20px;
+    }
+
+    .enter-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: linear-gradient(135deg, #00f3ff 0%, #9d4edd 100%);
+      color: #ffffff;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 800;
+      padding: 16px 36px;
+      border-radius: 40px;
+      border: none;
+      box-shadow: 0 0 30px rgba(0, 243, 255, 0.6);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      letter-spacing: 1px;
+    }
+
+    .enter-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 50px rgba(0, 243, 255, 0.9);
+    }
+
+    /* Responsive */
+    @media (max-width: 860px) {
+      header {
+        padding: 16px 20px;
+      }
+      .plaza-inner {
+        flex-direction: column-reverse;
+        padding: 30px 20px;
+        text-align: center;
+      }
+      .actions-row {
+        justify-content: center;
+      }
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+      .main-title {
+        font-size: 2.2rem;
+      }
+      .name-glow {
+        font-size: 2.8rem;
+      }
+    }
+
+    /* ── Team Champion Section ── */
+    .team-section {
+      width: 100%;
+      max-width: 1100px;
+      margin: 50px auto 20px;
+      padding: 0 20px;
+      text-align: center;
+    }
+    .team-section-heading {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 800;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #fff;
+      text-shadow: 0 0 18px #ffd700, 0 0 40px #ffaa00;
+      margin-bottom: 22px;
+    }
+    .team-photo-wrap {
+      position: relative;
+      display: inline-block;
+      width: 100%;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow:
+        0 0 0 2px rgba(255, 215, 0, 0.5),
+        0 0 30px rgba(255, 200, 0, 0.35),
+        0 0 70px rgba(180, 100, 255, 0.2);
+      transition: box-shadow 0.3s ease;
+    }
+    .team-photo-wrap:hover {
+      box-shadow:
+        0 0 0 3px rgba(255, 215, 0, 0.8),
+        0 0 50px rgba(255, 200, 0, 0.55),
+        0 0 100px rgba(180, 100, 255, 0.35);
+    }
+    .team-photo {
+      width: 100%;
+      display: block;
+      border-radius: 24px;
+    }
+    .team-names-row {
+      margin-top: 18px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.95rem;
+      letter-spacing: 0.12em;
+      color: rgba(255,255,255,0.75);
+      text-shadow: 0 0 10px rgba(255,215,0,0.4);
+    }
+    @media (max-width: 600px) {
+      .team-section-heading { font-size: 1.1rem; }
+      .team-names-row { font-size: 0.78rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Enter Website & Trigger Soundtrack Overlay Modal -->
+  <div class="enter-overlay" id="enterOverlay">
+    <div class="enter-modal">
+      <div style="width: 130px; height: 130px; margin: 0 auto 16px auto; border-radius: 50%; overflow: hidden; border: 3px solid #ffd700; box-shadow: 0 0 30px rgba(255, 215, 0, 0.6); background: rgba(0,0,0,0.5);">
+        <img src="eng_jia_sheng_medal.png" alt="Eng Jia Sheng Medal" style="width: 100%; height: 100%; object-fit: cover;">
+      </div>
+      <div class="enter-title">HONOR OF KINGS CHAMPION</div>
+      <div class="enter-name">ENG JIA SHENG</div>
+      <div style="font-family: 'Orbitron', sans-serif; font-size: 0.85rem; color: #00f3ff; margin-bottom: 20px; letter-spacing: 1px;">
+        MVP HOLDER • BEST ARCHER • PERFECT KDA
+      </div>
+      <button class="enter-btn" id="enterSiteBtn">
+        <i data-lucide="volume-2"></i>
+        <span>ENTER CELEBRATION</span>
+      </button>
+      <p style="margin-top: 15px; font-size: 0.85rem; color: #a7a3cc;">Click anywhere to start the celebration soundtrack</p>
+    </div>
+  </div>
+
+  <!-- Ambient Glow Blobs -->
+  <div class="ambient-glow ambient-glow-1"></div>
+  <div class="ambient-glow ambient-glow-2"></div>
+  <div class="ambient-glow ambient-glow-3"></div>
+
+  <!-- Starfield Canvas for Anime Sparkles -->
+  <canvas id="particle-canvas"></canvas>
+
+  <!-- Floating Anime Decorative Shards -->
+  <div class="floating-shard shard-1"></div>
+  <div class="floating-shard shard-2"></div>
+  <div class="floating-shard shard-3"></div>
+
+  <!-- Header with Music Player -->
+  <header>
+    <div class="brand-badge">
+      <i data-lucide="swords"></i>
+      HOK ESPORTS
+      <span>CHAMPIONSHIP</span>
+    </div>
+
+    <div class="audio-control-panel">
+      <button id="musicToggleBtn" class="music-btn" title="Toggle Bilibili Soundtrack">
+        <i id="musicIcon" data-lucide="play"></i>
+        <span id="musicText">PLAY BGM</span>
+        <div class="sound-bars">
+          <div class="bar"></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
+        </div>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Showcase -->
+  <main>
+    <!-- Congratulations Hero Header -->
+    <div class="congrats-banner">
+      <div class="sub-badge">
+        <i data-lucide="trophy"></i>
+        Honor of Kings Esports Tournament
+      </div>
+      <h1 class="main-title">
+        GRAND CHAMPION CONGRATULATIONS
+      </h1>
+      <div class="name-glow">
+        ENG JIA SHENG
+      </div>
+      <p class="subtitle-description">
+        Celebrating supreme mastery, tactical brilliance, and an unmatched tournament run to claim the #1 Grand Champion Crown in Honor of Kings (王者荣耀)!
+      </p>
+    </div>
+
+    <!-- The Anime Floating Plaza / Podium -->
+    <div class="anime-stage-wrapper">
+      <div class="floating-plaza" id="floatingPlaza">
+        <!-- Visual Artwork from Tournament Theme -->
+        <img src="champion_art.jpg" alt="Esports Gaming Tournament Plaza" class="stage-bg-art">
+        
+        <!-- Animated Laser Sweep -->
+        <div class="scan-line"></div>
+
+        <div class="plaza-inner">
+          <!-- Left: Recognition & Champion Stats -->
+          <div class="plaza-info">
+            <div class="tournament-tag">
+              <i data-lucide="flame"></i>
+              TOURNAMENT MVP & CHAMPION
+            </div>
+            
+            <h2 class="hero-greeting">
+              SALUTE THE <span>KING</span> OF THE ARENA
+            </h2>
+
+            <p style="color: #d1ceeb; line-height: 1.6; font-size: 1.05rem;">
+              Crowned as the official <strong>MVP Holder</strong> and universally hailed as the <strong>Best Archer (ADC)</strong> of the championship. With pinpoint accuracy, immaculate positioning, and an untouchable <strong>Perfect KDA</strong> record, <strong>ENG JIA SHENG</strong> spearheaded every teamfight to secure the championship.
+            </p>
+
+            <div class="stats-grid">
+              <div class="stat-card">
+                <div class="label">Tournament MVP</div>
+                <div class="value">MVP HOLDER</div>
+              </div>
+              <div class="stat-card">
+                <div class="label">Best Archer</div>
+                <div class="value">PERFECT KDA</div>
+              </div>
+              <div class="stat-card">
+                <div class="label">Tournament Rank</div>
+                <div class="value">#1 CHAMPION</div>
+              </div>
+            </div>
+
+            <div class="actions-row">
+              <button class="celebrate-btn" id="fireConfettiBtn">
+                <i data-lucide="sparkles"></i>
+                LAUNCH CELEBRATION!
+              </button>
+              <button class="music-btn" id="soundtrackActionBtn" style="background: rgba(0, 243, 255, 0.15);">
+                <i data-lucide="volume-2"></i>
+                TOGGLE BGM (BV1NdkkBPEc2)
+              </button>
+            </div>
+          </div>
+
+          <!-- Right: Anime Floating 3D Trophy & Champion Photo Display -->
+          <div class="plaza-trophy-display">
+            <!-- Champion Photo Badge -->
+            <div class="champion-photo-card">
+              <img src="eng_jia_sheng_medal.png" alt="ENG JIA SHENG receiving his championship medal">
+              <div class="champion-photo-overlay">
+                <div class="badge-text">ENG JIA SHENG • MEDAL CEREMONY</div>
+                <div class="kda-text">MVP HOLDER • BEST ARCHER • PERFECT KDA</div>
+              </div>
+            </div>
+
+            <div class="anime-aura-ring"></div>
+            
+            <div class="trophy-container">
+              <i data-lucide="crown" class="crown-floating" style="width: 48px; height: 48px;"></i>
+              <svg class="trophy-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
+                <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path>
+                <path d="M4 22h16"></path>
+                <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path>
+                <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"></path>
+                <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"></path>
+              </svg>
+            </div>
+
+            <div class="rank-pedestal">
+              <div class="rank-num">#1 VICTOR</div>
+              <div class="rank-text">ENG JIA SHENG • HOK CHAMPION</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  <!-- Local Native Audio Track (Bilibili BV1NdkkBPEc2 / 梦泪の小曲 Soundtrack) -->
+  <audio id="biliAudio" preload="auto" loop>
+    <source src="bili_soundtrack.m4a" type="audio/mp4">
+  </audio>
+
+    <!-- Highlights Grid / Victory Lore -->
+    <div class="highlights-section">
+      <div class="feature-card">
+        <div class="card-header">
+          <div class="card-icon-box">
+            <i data-lucide="crown"></i>
+          </div>
+          <div class="card-title">Tournament MVP Holder</div>
+        </div>
+        <p class="card-desc">
+          Awarded the prestigious MVP trophy for game-deciding teamfight leadership, lethal engagement control, and tournament-leading damage statistics.
+        </p>
+      </div>
+
+      <div class="feature-card">
+        <div class="card-header">
+          <div class="card-icon-box">
+            <i data-lucide="crosshair"></i>
+          </div>
+          <div class="card-title">Best Archer • Perfect KDA</div>
+        </div>
+        <p class="card-desc">
+          Flawless marksman mechanics across all playoff matches. Zero unforced deaths, surgical target prioritization, and a historic unblemished KDA ratio.
+        </p>
+      </div>
+
+      <div class="feature-card">
+        <div class="card-header">
+          <div class="card-icon-box">
+            <i data-lucide="award"></i>
+          </div>
+          <div class="card-title">Supreme Champion</div>
+        </div>
+        <p class="card-desc">
+          Lifting the Honor of Kings Grand Championship Cup in triumph, proving himself as the undisputed king of the arena.
+        </p>
+      </div>
+    </div>
+
+    <!-- ── Team Champion Showcase ── -->
+    <div class="team-section">
+      <div class="team-section-heading">🏆 KCS Season 3 · UTAR Kampar Champion Team</div>
+      <div class="team-photo-wrap">
+        <img src="team_champion.jpg" alt="KCS Season 3 UTAR Kampar Honor of Kings Champion Team" class="team-photo">
+      </div>
+      <div class="team-names-row">TYC &nbsp;·&nbsp; SUNFLOWER &nbsp;·&nbsp; SANDWICH &nbsp;·&nbsp; ZEROSEVEN &nbsp;·&nbsp; NIANNIANBW</div>
+    </div>
+
+  </main>
+
+  <footer>
+    Honoring Champion <strong>ENG JIA SHENG</strong> • Honor of Kings Esports • All Glory to the King
+  </footer>
+
+  <script>
+    // Initialize Lucide Icons
+    lucide.createIcons();
+
+    // BGM Soundtrack State & Control (Native Local Audio from Bilibili BV1NdkkBPEc2)
+    const biliAudio = document.getElementById('biliAudio');
+    const musicToggleBtn = document.getElementById('musicToggleBtn');
+    const musicIcon = document.getElementById('musicIcon');
+    const musicText = document.getElementById('musicText');
+    const soundtrackActionBtn = document.getElementById('soundtrackActionBtn');
+    let isBgmPlaying = false;
+
+    function updateBgmUI(playing) {
+      isBgmPlaying = playing;
+      if (playing) {
+        musicToggleBtn.classList.add('playing');
+        musicText.textContent = 'PAUSE BGM';
+        musicIcon.setAttribute('data-lucide', 'pause');
+      } else {
+        musicToggleBtn.classList.remove('playing');
+        musicText.textContent = 'PLAY BGM';
+        musicIcon.setAttribute('data-lucide', 'play');
+      }
+      lucide.createIcons();
+    }
+
+    // Toggle BGM Soundtrack Playback
+    function toggleBiliSoundtrack() {
+      if (!biliAudio) return;
+
+      if (isBgmPlaying) {
+        biliAudio.pause();
+        updateBgmUI(false);
+      } else {
+        const playPromise = biliAudio.play();
+        if (playPromise !== undefined) {
+          playPromise.then(() => {
+            updateBgmUI(true);
+          }).catch((err) => {
+            console.warn('Playback gesture required:', err);
+          });
+        }
+      }
+    }
+
+    // Ensure loop playback
+    biliAudio.addEventListener('ended', () => {
+      biliAudio.currentTime = 0;
+      biliAudio.play();
+    });
+
+    // Control by Top-Right button
+    musicToggleBtn.addEventListener('click', toggleBiliSoundtrack);
+    if (soundtrackActionBtn) {
+      soundtrackActionBtn.addEventListener('click', toggleBiliSoundtrack);
+    }
+
+    // Enter Overlay Controller: Guarantees 100% Autoplay compliance on enter
+    const enterOverlay = document.getElementById('enterOverlay');
+
+    function enterWebsiteAndPlay() {
+      if (enterOverlay) {
+        enterOverlay.classList.add('fade-out');
+      }
+      biliAudio.play().then(() => {
+        updateBgmUI(true);
+      }).catch(err => {
+        console.warn('Playback error:', err);
+      });
+      triggerCelebration();
+    }
+
+    if (enterOverlay) {
+      enterOverlay.addEventListener('click', enterWebsiteAndPlay);
+    }
+
+    // Also attempt browser direct autoplay on DOM load
+    window.addEventListener('DOMContentLoaded', () => {
+      const p = biliAudio.play();
+      if (p !== undefined) {
+        p.then(() => {
+          // If browser permitted direct autoplay without gesture, dismiss overlay automatically
+          updateBgmUI(true);
+          if (enterOverlay) {
+            enterOverlay.classList.add('fade-out');
+          }
+        }).catch(() => {
+          // Browser requires gesture -> overlay is ready for 1-click enter
+        });
+      }
+    });
+
+    // Celebration Confetti Cannon
+    function triggerCelebration() {
+      const count = 220;
+      const defaults = {
+        origin: { y: 0.65 }
+      };
+
+      function fire(particleRatio, opts) {
+        confetti(Object.assign({}, defaults, opts, {
+          particleCount: Math.floor(count * particleRatio)
+        }));
+      }
+
+      fire(0.25, {
+        spread: 30,
+        startVelocity: 55,
+        colors: ['#ffd700', '#00f3ff', '#9d4edd']
+      });
+      fire(0.2, {
+        spread: 60,
+        colors: ['#ffffff', '#ffaa00', '#ff007f']
+      });
+      fire(0.35, {
+        spread: 100,
+        decay: 0.91,
+        scalar: 1.1,
+        colors: ['#ffd700', '#00f3ff']
+      });
+      fire(0.1, {
+        spread: 120,
+        startVelocity: 25,
+        decay: 0.92,
+        scalar: 1.3
+      });
+      fire(0.1, {
+        spread: 130,
+        startVelocity: 45,
+        colors: ['#ffd700', '#ffffff', '#00f3ff']
+      });
+    }
+
+    document.getElementById('fireConfettiBtn').addEventListener('click', triggerCelebration);
+
+    // Initial Celebration blast on load
+    window.addEventListener('DOMContentLoaded', () => {
+      setTimeout(triggerCelebration, 900);
+    });
+
+    // Particle Canvas: Anime Starfield & Floating Light motes
+    const canvas = document.getElementById('particle-canvas');
+    const ctx = canvas.getContext('2d');
+    let width = canvas.width = window.innerWidth;
+    let height = canvas.height = window.innerHeight;
+
+    window.addEventListener('resize', () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    });
+
+    const particles = [];
+    const PARTICLE_COUNT = 55;
+
+    for (let i = 0; i < PARTICLE_COUNT; i++) {
+      particles.push({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        radius: Math.random() * 2 + 0.8,
+        color: ['#00f3ff', '#ffd700', '#9d4edd', '#ffffff'][Math.floor(Math.random() * 4)],
+        vx: (Math.random() - 0.5) * 0.4,
+        vy: -(Math.random() * 0.6 + 0.2), // slow upward anime float
+        alpha: Math.random() * 0.8 + 0.2,
+        pulsing: Math.random() * 0.02
+      });
+    }
+
+    function renderParticles() {
+      ctx.clearRect(0, 0, width, height);
+
+      particles.forEach(p => {
+        p.x += p.vx;
+        p.y += p.vy;
+        p.alpha += p.pulsing;
+
+        if (p.alpha > 0.9 || p.alpha < 0.2) p.pulsing = -p.pulsing;
+        if (p.y < 0) {
+          p.y = height + 10;
+          p.x = Math.random() * width;
+        }
+        if (p.x < 0) p.x = width;
+        if (p.x > width) p.x = 0;
+
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fillStyle = p.color;
+        ctx.globalAlpha = Math.max(0, Math.min(1, p.alpha));
+        ctx.shadowBlur = 12;
+        ctx.shadowColor = p.color;
+        ctx.fill();
+        ctx.restore();
+      });
+
+      requestAnimationFrame(renderParticles);
+    }
+    renderParticles();
+
+    // Mouse Parallax for Anime Plaza
+    const plaza = document.getElementById('floatingPlaza');
+    document.addEventListener('mousemove', (e) => {
+      const { innerWidth, innerHeight } = window;
+      const x = (e.clientX - innerWidth / 2) / (innerWidth / 2);
+      const y = (e.clientY - innerHeight / 2) / (innerHeight / 2);
+      plaza.style.transform = `rotateY(${x * 4}deg) rotateX(${-y * 4}deg)`;
+    });
+  </script>
+</body>
+</html>
+
